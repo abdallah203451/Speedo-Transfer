@@ -1,0 +1,56 @@
+<div *ngIf="showLogin" class="z-50 h-full">
+  <div class="flex items-center h-28 px-12">
+    <p class="mr-auto text-small-title font-semibold text-gray-900">
+      Speedo Transfer
+    </p>
+    <button class="text-gray-600 hover:text-gray-900 text-title2">
+      &times;
+    </button>
+  </div>
+  <div class="rounded-lg shadow-lg p-8 max-w-lg m-auto mb-28">
+    <div class="flex justify-between items-center">
+      <h2 class="text-small-title font-semibold mb-4 text-gray-900">
+        Login here
+      </h2>
+    </div>
+    <p class="text-body font-regular text-gray-500 mb-6">
+      Welcome back.Login to your account
+    </p>
+    <form class="text-body font-regular text-gray-700">
+      <div class="mb-4">
+        <label class="block mb-2">Email address</label>
+        <input
+          type="email"
+          class="w-full px-3 py-3 border border-gray-70 rounded-md"
+          placeholder="Email address"
+        />
+      </div>
+      <div class="mb-5">
+        <label class="block mb-2">Password</label>
+        <input
+          type="password"
+          class="w-full px-3 py-3 border border-gray-70 rounded-md"
+          placeholder="********"
+        />
+      </div>
+      <button
+        type="submit"
+        class="w-full bg-primary-300 text-gray-0 text-body font-medium py-3 rounded-md hover:bg-primary-400 transition"
+      >
+        Create Account
+      </button>
+    </form>
+
+    <p class="text-body font-regular text-gray-500 mt-4">
+      Don’t have an account?
+      <a href="#" class="text-primary-300 underline text-body font-medium ml-1"
+        >Create Account</a
+      >
+    </p>
+  </div>
+  <div
+    class="text-center bg-primary-50 text-gray-900 text-body font-medium py-4"
+  >
+    ©Speedo Transfer Payments Limited 2024
+  </div>
+</div>
