@@ -1,0 +1,168 @@
+<!-- Title hidden when showSummary is true -->
+<div *ngIf="!showSummary" class="text-money__transfer">
+  <h1>How much are you sending?</h1>
+  
+</div><h3 *ngIf="conversionRateText">{{ conversionRateText }}</h3>
+
+<!-- The form for entering details, hidden when showSummary is true -->
+<form *ngIf="!showSummary" [formGroup]="transferForm" (ngSubmit)="onSubmit()">
+  <div class="input-group">
+    <div class="input-wrapper">
+      <label for="amount">You send</label>
+      <div class="input-container">
+        <input
+          id="amount"
+          formControlName="amount"
+          type="number"
+          (input)="convertAmount()"
+        />
+        <select
+          id="fromCurrency"
+          class="dropdown-form"
+          formControlName="fromCurrency"
+          (change)="convertAmount()"
+        >
+          <option *ngFor="let option of currencyOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+      <div
+        class="error-message"
+        *ngIf="
+          transferForm.controls['amount'].invalid &&
+          (transferForm.controls['amount'].dirty ||
+            transferForm.controls['amount'].touched)
+        "
+      >
+        <small *ngIf="transferForm.controls['amount'].errors?.['required']"
+          >Amount is required.</small
+        >
+        <small *ngIf="transferForm.controls['amount'].errors?.['min']"
+          >Amount must be greater than zero.</small
+        >
+      </div>
+    </div>
+    <div class="input-wrapper">
+      <label for="convertedAmount">Recipient Gets</label>
+      <div class="input-container">
+        <input id="convertedAmount" [value]="convertedAmount" readonly />
+        <select
+          id="toCurrency"
+          formControlName="toCurrency"
+          (change)="convertAmount()"
+        >
+          <option *ngFor="let option of currencyOptions" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+      </div>
+      <div
+        class="error-message"
+        *ngIf="
+          transferForm.controls['toCurrency'].invalid &&
+          (transferForm.controls['toCurrency'].dirty ||
+            transferForm.controls['toCurrency'].touched)
+        "
+      >
+        <small *ngIf="transferForm.controls['toCurrency'].errors?.['required']"
+          >Currency is required.</small
+        >
+      </div>
+    </div>
+    <div class="favourite-container">
+      <div class="text-favourite">
+        <p>Recipient Information</p>
+      </div>
+      <div class="info-btn" (click)="openNewWindow()">
+        <i class="fa fa-star star-icon"></i>
+        <span class="info-text">Favourite</span>
+      </div>
+    </div>
+    <div class="input-wrapper">
+      <label for="recipientName">Recipient Name</label>
+      <div class="input-container__text">
+        <input id="recipientName" formControlName="recipientName" type="text" />
+        <div
+          class="error-message"
+          *ngIf="
+            transferForm.controls['recipientName'].invalid &&
+            (transferForm.controls['recipientName'].dirty ||
+              transferForm.controls['recipientName'].touched)
+          "
+        >
+          <small
+            *ngIf="transferForm.controls['recipientName'].errors?.['required']"
+            >Recipient Name is required.</small
+          >
+        </div>
+      </div>
+    </div>
+    <div class="input-wrapper">
+      <label for="recipientAccount">Recipient Account</label>
+      <div class="input-container__text">
+        <input
+          id="recipientAccount"
+          formControlName="recipientAccount"
+          type="text"
+          maxlength="8"
+        />
+        <div
+          class="error-message"
+          *ngIf="
+            transferForm.controls['recipientAccount'].invalid &&
+            (transferForm.controls['recipientAccount'].dirty ||
+              transferForm.controls['recipientAccount'].touched)
+          "
+        >
+          <small
+            *ngIf="transferForm.controls['recipientAccount'].errors?.['required']"
+            >Recipient Account is required.</small
+          >
+          <small
+            *ngIf="transferForm.controls['recipientAccount'].errors?.['pattern']"
+            >Account must be exactly 8 digits.</small
+          >
+        </div>
+      </div>
+    </div>
+    <button
+      class="btn-money-transfer__form"
+      type="submit"
+      [disabled]="transferForm.invalid"
+    >
+      Continue
+    </button>
+  </div>
+</form>
+
+<!-- Summary Section, visible when showSummary is true -->
+<div *ngIf="showSummary" class="summary-section">
+  <div class="summary-item">
+    <h1>
+       {{ transferForm.value.amount }}
+      {{ transferForm.value.fromCurrency }}
+    </h1>
+    <p>Transfer amount</p>
+    <div class="total-amount">
+    <div class="total-amount__text"><p>Total amount</p>
+    </div>
+    <div class="total-amount__function">
+      <p>
+       {{ convertedAmount?.toFixed(2) }}
+      {{ transferForm.value.toCurrency }}
+    </p>
+  </div>
+  </div>
+  </div>
+  <div class="summary-item">
+    <h2>From</h2>
+    <p>Name: Jonathon Smith</p>
+    <p>Account: {{ fromAccount }}</p>
+  </div>
+  <div class="summary-item">
+    <h2>To</h2>
+    <p>Name: {{ recipientName }}</p>
+    <p>Account: {{ getMaskedAccount(recipientAccount) }}</p>
+  </div>
+</div>

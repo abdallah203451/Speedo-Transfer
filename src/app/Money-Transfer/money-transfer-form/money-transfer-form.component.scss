@@ -1,0 +1,163 @@
+* {
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+}
+
+.text-money__transfer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-wrapper {
+  margin-bottom: 20px;
+}
+
+.input-wrapper label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+}
+
+.input-container input,
+.input-container__text input {
+  margin-right: -10px;
+  flex: 1;
+  height: 55px;
+}
+
+.input-container input {
+  width: 500px;
+}
+
+.input-container__text input {
+  width: 640px;
+}
+
+.input-container input {
+  width: 500px;
+}
+
+.input-container__text input {
+  width: 640px;
+}
+
+.input-container select {
+  flex-shrink: 0;
+  width: 150px;
+  height: 56px;
+  background-color: rgb(136, 136, 136);
+  display: flex;
+  text-align: center;
+}
+
+/* Error messages */
+.error-message {
+  color: red;
+  font-size: 0.875em;
+  margin-top: 5px;
+}
+
+h3 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: #333;
+}
+
+.btn-money-transfer__form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #871e35;
+  color: #ccc;
+  height: 56px;
+  width: 554px;
+  padding: 16px 32px;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+}
+
+.btn-money-transfer__form:disabled {
+  background-color: #ddd;
+  color: #aaa;
+  cursor: not-allowed;
+}
+
+.info-btn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  color: #871e35;
+  border: none;
+  background: none;
+  padding: 10px;
+  transition: color 0.3s;
+}
+
+.info-btn:hover {
+  color: #551321;
+}
+
+.info-text {
+  margin-right: 10px;
+  font-size: 1.3rem;
+}
+
+.favourite-container {
+  display: flex;
+  width: 40%;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text-favourite {
+  font-size: 1.3rem;
+}
+.summary-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+/* Existing styles... */
+
+.summary-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.summary-item {
+  margin-bottom: 20px;
+}
+
+.summary-item h2 {
+  margin-bottom: 10px;
+  font-size: 1.5em;
+}
+
+.summary-item p {
+  font-size: 1.2em;
+}
+.total-amount{
+  flex-direction: row;
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+}
