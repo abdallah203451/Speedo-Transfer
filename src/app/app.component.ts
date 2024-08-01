@@ -4,6 +4,7 @@ import { HeaderComponent } from './shared/header/header.component';
 import { FooterComponent } from './shared/footer/footer.component';
 import { RegisterComponent } from './auth/components/register/register.component';
 import { LoginComponent } from './auth/components/login/login.component';
+import { MoneyTransferFormComponent } from './Money-Transfer/money-transfer-form/money-transfer-form.component';
 import { CommonModule } from '@angular/common';
 import { AuthModalService } from './services/auth-modal.service';
 import { Observable } from 'rxjs';
@@ -18,11 +19,13 @@ import { Observable } from 'rxjs';
     RegisterComponent,
     LoginComponent,
     CommonModule,
+    MoneyTransferFormComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
+  isRegistrationPopupOpen: boolean = true;
   // openRegister: boolean = false;
   // openLogin: boolean = false;
 
