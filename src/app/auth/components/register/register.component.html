@@ -1,9 +1,12 @@
-<div *ngIf="showRegister" class="z-50 h-full">
+<div class="z-50 h-full fixed w-full overflow-y-scroll">
   <div class="flex items-center h-28 px-12">
     <p class="mr-auto text-small-title font-semibold text-gray-900">
       Speedo Transfer
     </p>
-    <button class="text-gray-600 hover:text-gray-900 text-title2">
+    <button
+      class="text-gray-600 hover:text-gray-900 text-title2"
+      (click)="close()"
+    >
       &times;
     </button>
   </div>

@@ -1,11 +1,20 @@
-<div *ngIf="showLogin" class="z-50 h-full">
+<div class="z-50 h-full fixed w-full overflow-y-scroll">
   <div class="flex items-center h-28 px-12">
     <p class="mr-auto text-small-title font-semibold text-gray-900">
       Speedo Transfer
     </p>
-    <button class="text-gray-600 hover:text-gray-900 text-title2">
+    <button
+      class="text-gray-600 hover:text-gray-900 text-title2"
+      (click)="close()"
+    >
       &times;
     </button>
+  </div>
+  <div class="text-center mb-8">
+    <p class="text-title2 font-semibold text-gray-900">Login</p>
+    <p class="text-body font-regular text-gray-500">
+      New Account? <a href="" class="font-medium">Sign Up</a>
+    </p>
   </div>
   <div class="rounded-lg shadow-lg p-8 max-w-lg m-auto mb-28">
     <div class="flex justify-between items-center">
@@ -43,7 +52,9 @@
 
     <p class="text-body font-regular text-gray-500 mt-4">
       Don’t have an account?
-      <a href="#" class="text-primary-300 underline text-body font-medium ml-1"
+      <a
+        href="#"
+        class="text-primary-300 underline text-body font-medium ml-1"
         >Create Account</a
       >
     </p>

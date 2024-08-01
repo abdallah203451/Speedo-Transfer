@@ -1,5 +1,24 @@
+<!-- <app-register
+  *ngIf="openRegister"
+  (closeButtonClicked)="closeRegister($event)"
+></app-register>
+<app-login
+  *ngIf="openLogin"
+  (closeButtonClicked)="closeLogin($event)"
+></app-login>
+<app-header
+  *ngIf="!openLogin && !openRegister"
+  (registerButtonClicked)="openRegisterPage($event)"
+  (loginButtonClicked)="openLoginPage($event)"
+></app-header>
+<router-outlet *ngIf="!openLogin && !openRegister" />
+<app-footer *ngIf="!openLogin && !openRegister"></app-footer> -->
+
+@if(!(registerVisible$ | async) && !(loginVisible$ | async)){
 <app-header></app-header>
-<router-outlet />
+<router-outlet></router-outlet>
 <app-footer></app-footer>
-<app-register></app-register>
-<app-login></app-login>
+}
+
+<app-register *ngIf="registerVisible$ | async"></app-register>
+<app-login *ngIf="loginVisible$ | async"></app-login>

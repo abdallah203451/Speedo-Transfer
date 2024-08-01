@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { AuthModalService } from '../../../services/auth-modal.service';
 
 @Component({
   selector: 'app-login',
@@ -9,5 +10,9 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  showLogin: boolean = false;
+  constructor(private modalService: AuthModalService) {}
+
+  close() {
+    this.modalService.hideLogin();
+  }
 }

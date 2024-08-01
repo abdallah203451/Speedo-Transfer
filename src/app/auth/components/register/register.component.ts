@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { AuthModalService } from '../../../services/auth-modal.service';
 
 @Component({
   selector: 'app-register',
@@ -9,5 +10,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './register.component.scss',
 })
 export class RegisterComponent {
-  showRegister: boolean = false;
+  constructor(private modalService: AuthModalService) {}
+
+  close() {
+    this.modalService.hideRegister();
+  }
 }

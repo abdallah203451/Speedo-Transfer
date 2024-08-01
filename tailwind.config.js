@@ -6,6 +6,9 @@ module.exports = {
       fontFamily: {
         inter: ["Inter", "sans-serif"],
       },
+      backgroundImage: {
+        hero: "linear-gradient(to right bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/header.jpg')",
+      },
       fontSize: {
         h1: ["64px", "150%"],
         h2: ["52px", "150%"],
