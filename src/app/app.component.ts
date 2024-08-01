@@ -8,6 +8,7 @@ import { MoneyTransferFormComponent } from './Money-Transfer/money-transfer-form
 import { CommonModule } from '@angular/common';
 import { AuthModalService } from './services/auth-modal.service';
 import { Observable } from 'rxjs';
+import { AccPagesComponent } from "./MyAccount/pages/acc-pages/acc-pages.component";
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ import { Observable } from 'rxjs';
     LoginComponent,
     CommonModule,
     MoneyTransferFormComponent,
-  ],
+    AccPagesComponent
+],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
