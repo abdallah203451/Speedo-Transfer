@@ -7,8 +7,8 @@ import {
 } from '@angular/forms';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, throwError } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-money-transfer-form',
@@ -18,16 +18,16 @@ import { map } from 'rxjs/operators';
   imports: [ReactiveFormsModule, HttpClientModule, CommonModule],
 })
 export class MoneyTransferFormComponent {
+  fees: any;
+  feeCurrency: any;
   transferForm: FormGroup;
   convertedAmount: number | null = null;
   currencyOptions: string[] = [];
   exchangeRates: any = {};
   conversionRateText: string | null = null;
   showSummary: boolean = false;
-  recipientName: string | null = null;
-  recipientAccount: string | null = null; // Account number
-  fromAccount = 'xxxx7890'; // Example static value
-
+  transferSuccessful: boolean = false;
+  fromAccount = 'xxxx7890';
   private apiUrl =
     'https://v6.exchangerate-api.com/v6/44d7f7e9b0c7df5700709f65/latest/USD';
 
@@ -39,8 +39,9 @@ export class MoneyTransferFormComponent {
       recipientName: ['', Validators.required],
       recipientAccount: [
         '',
-        [Validators.required, Validators.pattern('^[0-9]{8}$')],
-      ], // Updated to 8 digits
+        [Validators.required, Validators.pattern('^[1-9]{8}$')],
+      ],
+      senderName: ['Jonathon Smith', Validators.required],
     });
 
     this.fetchExchangeRates().subscribe((rates) => {
@@ -70,6 +71,9 @@ export class MoneyTransferFormComponent {
       const fromRate = this.exchangeRates[fromCurrency];
       const toRate = this.exchangeRates[toCurrency];
       this.convertedAmount = (amount / fromRate) * toRate;
+      this.conversionRateText = `1 ${fromCurrency} = ${(
+        toRate / fromRate
+      ).toFixed(4)} ${toCurrency}`;
     } else {
       this.convertedAmount = null;
     }
@@ -84,14 +88,25 @@ export class MoneyTransferFormComponent {
   onSubmit() {
     if (this.transferForm.valid) {
       this.showSummary = true;
-      this.recipientName = this.transferForm.value.recipientName;
-      this.recipientAccount = this.transferForm.value.recipientAccount;
     }
   }
 
+  goBackToHome() {
+    this.showSummary = false;
+    this.transferSuccessful = false;
+  }
+
+  addToFavourite() {
+    // Implement your logic to add to favourite
+  }
+
+  confirmTransfer() {
+    this.transferSuccessful = true;
+  }
+
   getMaskedAccount(account: string | null): string {
-    if (!account || account.length < 8) return 'xxxxxxxx'; // Placeholder for invalid account
-    return 'xxxx' + account.substring(4); // Mask first 4 digits
+    if (!account || account.length < 8) return 'xxxxxxxx';
+    return 'xxxx' + account.substring(4);
   }
 
   openNewWindow() {
@@ -111,5 +126,9 @@ export class MoneyTransferFormComponent {
     } else {
       alert('Failed to open new window');
     }
+  }
+  currentPage: number = 1;
+  goToPage(pageNumber: number) {
+    this.currentPage = pageNumber;
   }
 }
