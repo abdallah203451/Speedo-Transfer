@@ -14,11 +14,12 @@
 <router-outlet *ngIf="!openLogin && !openRegister" />
 <app-footer *ngIf="!openLogin && !openRegister"></app-footer> -->
 
-@if(!(registerVisible$ | async) && !(loginVisible$ | async)){
+<!-- @if(!(registerVisible$ | async) && !(loginVisible$ | async)){
 <app-header></app-header>
 <router-outlet></router-outlet>
 <app-footer></app-footer>
 }
 
 <app-register *ngIf="registerVisible$ | async"></app-register>
-<app-login *ngIf="loginVisible$ | async"></app-login>
+<app-login *ngIf="loginVisible$ | async"></app-login> -->
+<app-money-transfer-form></app-money-transfer-form>
