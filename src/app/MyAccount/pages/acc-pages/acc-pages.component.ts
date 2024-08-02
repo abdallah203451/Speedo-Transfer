@@ -4,11 +4,13 @@ import { SidebarComponent } from "../../components/sidebar/sidebar/sidebar.compo
 import { PaymentComponent } from "../../components/PaymentHistory/payment/payment.component";
 import { SettingsComponent } from "../../components/Settings/settings/settings.component";
 import { ErrorComponent } from "../../components/404error/error/error.component";
+import { RouterOutlet } from '@angular/router';
+
 
 @Component({
   selector: 'app-acc-pages',
   standalone: true,
-  imports: [ProfileComponent, SidebarComponent, PaymentComponent, SettingsComponent, ErrorComponent],
+  imports: [ProfileComponent, SidebarComponent, PaymentComponent, SettingsComponent, ErrorComponent,RouterOutlet],
   templateUrl: './acc-pages.component.html',
   styleUrl: './acc-pages.component.scss'
 })
