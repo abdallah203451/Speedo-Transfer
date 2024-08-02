@@ -9,13 +9,21 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
+import { MoneyTransferHeroSectionComponent } from '../../shared/money-transfer-hero-section/money-transfer-hero-section.component';
+import { AccountDataComponent } from '../components/account-data/account-data.component';
 
 @Component({
   selector: 'app-money-transfer-form',
   templateUrl: './money-transfer-form.component.html',
   styleUrls: ['./money-transfer-form.component.scss'],
   standalone: true,
-  imports: [ReactiveFormsModule, HttpClientModule, CommonModule],
+  imports: [
+    ReactiveFormsModule,
+    HttpClientModule,
+    CommonModule,
+    MoneyTransferHeroSectionComponent,
+    AccountDataComponent,
+  ],
 })
 export class MoneyTransferFormComponent {
   fees: any;
@@ -25,7 +33,6 @@ export class MoneyTransferFormComponent {
   currencyOptions: string[] = [];
   exchangeRates: any = {};
   conversionRateText: string | null = null;
-  showSummary: boolean = false;
   transferSuccessful: boolean = false;
   fromAccount = 'xxxx7890';
   private apiUrl =
@@ -87,13 +94,12 @@ export class MoneyTransferFormComponent {
 
   onSubmit() {
     if (this.transferForm.valid) {
-      this.showSummary = true;
+      this.currentPage = 2;
     }
   }
 
   goBackToHome() {
-    this.showSummary = false;
-    this.transferSuccessful = false;
+    this.currentPage = 1;
   }
 
   addToFavourite() {
@@ -102,6 +108,7 @@ export class MoneyTransferFormComponent {
 
   confirmTransfer() {
     this.transferSuccessful = true;
+    this.currentPage = 3;
   }
 
   getMaskedAccount(account: string | null): string {
