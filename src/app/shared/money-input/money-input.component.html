@@ -1,0 +1,19 @@
+<div class="mt-1 flex rounded-md shadow-sm">
+  <input
+    id="amount"
+    formControlName="amount"
+    type="number"
+    (input)="convertAmount()"
+    class="text-body font-regular text-gray-900 w-full border-[1px] border-y border-l border-gray-40 rounded-l-md px-5 py-4"
+  />
+  <select
+    id="fromCurrency"
+    formControlName="fromCurrency"
+    (change)="convertAmount()"
+    class="w-[40%] border-gray-40 bg-gray-40 rounded-r-md"
+  >
+    <option *ngFor="let option of currencyOptions" [value]="option">
+      {{ option }}
+    </option>
+  </select>
+</div>

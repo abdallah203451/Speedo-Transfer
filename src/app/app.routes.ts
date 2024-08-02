@@ -4,11 +4,12 @@ import { AccPagesComponent } from './MyAccount/pages/acc-pages/acc-pages.compone
 import { ProfileComponent } from './MyAccount/components/MyProfile/profile/profile.component';
 import { PaymentComponent } from './MyAccount/components/PaymentHistory/payment/payment.component';
 import { SettingsComponent } from './MyAccount/components/Settings/settings/settings.component';
+import { MoneyTransferFormComponent } from './Money-Transfer/money-transfer-form/money-transfer-form.component';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'myAccount',
+    redirectTo: 'home',
     pathMatch: 'full',
   },
   {
@@ -23,5 +24,10 @@ export const routes: Routes = [
       { path: 'payment-history', component: PaymentComponent },
       { path: 'settings', component: SettingsComponent },
     ],
+  
   },
+  {
+    path: 'transfer',
+    component: MoneyTransferFormComponent,
+  }
 ];
