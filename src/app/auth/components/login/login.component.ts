@@ -1,16 +1,78 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
-import { AuthModalService } from '../../../services/auth-modal.service';
+import { AuthModalService } from '../../../services/auth-modal/auth-modal.service';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { AuthService } from '../../../services/authentication/auth.service';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
 export class LoginComponent {
-  constructor(private modalService: AuthModalService) {}
+  loginForm!: FormGroup;
+  hidePassword: boolean = true;
+
+  constructor(
+    private fb: FormBuilder,
+    private modalService: AuthModalService,
+    private auth: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: ['', [Validators.required, Validators.email]],
+      password: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+          ),
+        ],
+      ],
+    });
+  }
+
+  get f() {
+    return this.loginForm.controls;
+  }
+
+  onLogin() {
+    if (this.loginForm.valid) {
+      // const obj = {
+      //   email: this.UserLogin.email,
+      //   password: this.UserLogin.password,
+      // }
+      this.auth.login(this.loginForm.value).subscribe({
+        next: (response) => {
+          //this.notification.showSuccess("User login successful", "Success")
+          const token = (<any>response).token;
+          // const refreshToken = (<any>response).refreshToken;
+          localStorage.setItem('accessToken', token);
+          // localStorage.setItem('refreshToken', refreshToken);
+          this.close();
+        },
+        error: (err) => {
+          alert(err?.error.message);
+          console.error(err);
+          //this.loginForm.reset()
+        },
+      });
+    }
+  }
+
+  togglePasswordVisibility() {
+    this.hidePassword = !this.hidePassword;
+  }
 
   close() {
     this.modalService.hideLogin();

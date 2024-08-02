@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { AuthModalService } from '../../services/auth-modal.service';
+import { AuthModalService } from '../../services/auth-modal/auth-modal.service';
 
 @Component({
   selector: 'app-header',

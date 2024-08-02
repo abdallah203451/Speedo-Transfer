@@ -6,7 +6,7 @@ import { RegisterComponent } from './auth/components/register/register.component
 import { LoginComponent } from './auth/components/login/login.component';
 import { MoneyTransferFormComponent } from './Money-Transfer/money-transfer-form/money-transfer-form.component';
 import { CommonModule } from '@angular/common';
-import { AuthModalService } from './services/auth-modal.service';
+import { AuthModalService } from './services/auth-modal/auth-modal.service';
 import { Observable } from 'rxjs';
 
 @Component({
