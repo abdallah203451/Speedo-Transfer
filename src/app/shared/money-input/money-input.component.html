@@ -1,4 +1,4 @@
-<div class="mt-1 flex rounded-md shadow-sm">
+<!-- <div class="mt-1 flex rounded-md shadow-sm relative">
   <input
     id="amount"
     formControlName="amount"
@@ -6,14 +6,60 @@
     (input)="convertAmount()"
     class="text-body font-regular text-gray-900 w-full border-[1px] border-y border-l border-gray-40 rounded-l-md px-5 py-4"
   />
+
   <select
     id="fromCurrency"
     formControlName="fromCurrency"
     (change)="convertAmount()"
-    class="w-[40%] border-gray-40 bg-gray-40 rounded-r-md"
+    class="w-[40%] border-gray-40 bg-gray-40 rounded-r-md appearance-none px-2"
   >
+    <option value="USA">
+      <img src="assets/united states.svg" alt="" class="w-10px" />USA
+    </option>
     <option *ngFor="let option of currencyOptions" [value]="option">
       {{ option }}
     </option>
   </select>
+  <img src="assets/DRop down.svg" alt="" class="absolute right-2 top-4" />
+</div> -->
+
+<div class="flex items-center">
+  <input
+    type="text"
+    class="border border-gray-40 rounded-l-lg py-4 px-4 w-full"
+    placeholder="1000"
+  />
+
+  <div class="relative">
+    <button
+      (click)="toggleDropdown()"
+      class="bg-gray-40 rounded-r-lg py-4 pl-4 pr-10 flex items-center border border-gray-40"
+    >
+      <img
+        src="{{ this.selectedCurrency.flag }}"
+        alt="USA Flag"
+        class="w-5 h-5 mr-2"
+      />
+      <p>{{ this.selectedCurrency.code }}</p>
+      <img src="assets/DRop down.svg" alt="Dropdown Arrow" class="w-5 h-5" />
+    </button>
+
+    <ul
+      *ngIf="dropdownOpen"
+      class="absolute mt-[-10px] border border-gray-300 bg-white rounded-md shadow-lg w-full z-10"
+    >
+      <li
+        *ngFor="let currency of currencies"
+        (click)="selectCurrency(currency)"
+        class="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center"
+      >
+        <img
+          [src]="currency.flag"
+          alt="{{ currency.code }} Flag"
+          class="w-5 h-5 mr-2"
+        />
+        {{ currency.code }}
+      </li>
+    </ul>
+  </div>
 </div>

@@ -10,6 +10,24 @@ import { FormGroup } from '@angular/forms';
   styleUrl: './money-input.component.scss',
 })
 export class MoneyInputComponent {
+  dropdownOpen = false;
+  currencies = [
+    { code: 'USD', flag: 'assets/united states.svg' },
+    { code: 'EUR', flag: 'assets/european union.svg' },
+    { code: 'JPY', flag: 'assets/japan.svg' },
+    // Add more currencies as needed
+  ];
+  selectedCurrency = this.currencies[0];
+
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  selectCurrency(currency: { code: string; flag: string }) {
+    this.selectedCurrency = currency;
+    this.dropdownOpen = false;
+  }
+
   transferForm!: FormGroup;
   convertedAmount: number | null = null;
   currencyOptions: string[] = [];

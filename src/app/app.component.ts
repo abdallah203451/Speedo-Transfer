@@ -8,7 +8,8 @@ import { MoneyTransferFormComponent } from './Money-Transfer/money-transfer-form
 import { CommonModule } from '@angular/common';
 import { AuthModalService } from './services/auth-modal/auth-modal.service';
 import { Observable } from 'rxjs';
-import { AccPagesComponent } from "./MyAccount/pages/acc-pages/acc-pages.component";
+import { AccPagesComponent } from './MyAccount/pages/acc-pages/acc-pages.component';
+import { DownloadComponent } from './shared/download/download.component';
 
 @Component({
   selector: 'app-root',
@@ -21,46 +22,18 @@ import { AccPagesComponent } from "./MyAccount/pages/acc-pages/acc-pages.compone
     LoginComponent,
     CommonModule,
     MoneyTransferFormComponent,
-    AccPagesComponent
-],
+    AccPagesComponent,
+    DownloadComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent implements OnInit {
-  isRegistrationPopupOpen: boolean = true;
-  // openRegister: boolean = false;
-  // openLogin: boolean = false;
-
-  // openRegisterPage(openRegister: boolean) {
-  //   this.openRegister = openRegister;
+export class AppComponent {
+  // loginVisible$?: Observable<boolean>;
+  // registerVisible$?: Observable<boolean>;
+  // constructor(private modalService: AuthModalService) {}
+  // ngOnInit() {
+  //   this.loginVisible$ = this.modalService.loginVisible$;
+  //   this.registerVisible$ = this.modalService.registerVisible$;
   // }
-  // openLoginPage(openLogin: boolean) {
-  //   this.openLogin = openLogin;
-  // }
-  // closeRegister(isClose: boolean) {
-  //   if (isClose) {
-  //     this.openRegister = false;
-  //   } else {
-  //     this.openRegister = false;
-  //     this.openLogin = true;
-  //   }
-  // }
-  // closeLogin(isClose: boolean) {
-  //   if (isClose) {
-  //     this.openLogin = false;
-  //   } else {
-  //     this.openLogin = false;
-  //     this.openRegister = true;
-  //   }
-  // }
-
-  loginVisible$?: Observable<boolean>;
-  registerVisible$?: Observable<boolean>;
-
-  constructor(private modalService: AuthModalService) {}
-
-  ngOnInit() {
-    this.loginVisible$ = this.modalService.loginVisible$;
-    this.registerVisible$ = this.modalService.registerVisible$;
-  }
 }

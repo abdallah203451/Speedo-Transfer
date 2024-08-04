@@ -1,24 +1,24 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { AuthModalService } from '../../services/auth-modal/auth-modal.service';
-
+import { Component } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { DialogService } from '@ngneat/dialog';
+import { LoginComponent } from '../../auth/components/login/login.component';
+import { RegisterComponent } from '../../auth/components/register/register.component';
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [],
+  imports: [RouterModule],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  // @Output() loginButtonClicked = new EventEmitter<boolean>();
-  // @Output() registerButtonClicked = new EventEmitter<boolean>();
-  constructor(private authModalService: AuthModalService) {}
+  constructor(private dialog: DialogService) {}
   toLogin() {
-    // this.loginButtonClicked.emit(true);
-    this.authModalService.showLogin();
+    // this.authModalService.showLogin();
+    this.dialog.open(LoginComponent);
   }
 
   toRegister() {
-    // this.registerButtonClicked.emit(true);
-    this.authModalService.showRegister();
+    // this.authModalService.showRegister();
+    this.dialog.open(RegisterComponent);
   }
 }

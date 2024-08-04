@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -10,9 +10,9 @@ import { NavigationEnd, Router } from '@angular/router';
 })
 export class MoneyTransferHeroSectionComponent {
   currentRoute: string = '';
-
+  private sub;
   constructor(private router: Router) {
-    this.router.events.subscribe((event) => {
+    this.sub = this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         this.updateCurrentRoute(event.urlAfterRedirects);
       }
@@ -21,6 +21,10 @@ export class MoneyTransferHeroSectionComponent {
 
   ngOnInit(): void {
     this.updateCurrentRoute(this.router.url);
+  }
+
+  ngOnDestroy(): void {
+    this.sub.unsubscribe();
   }
 
   updateCurrentRoute(url: string): void {

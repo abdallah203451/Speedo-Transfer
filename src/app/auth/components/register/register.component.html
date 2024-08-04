@@ -1,11 +1,11 @@
-<div class="z-50 h-full fixed w-full overflow-y-scroll">
+<div class="fixed h-full w-full overflow-y-scroll bg-gray-0 left-0 top-0">
   <div class="flex items-center h-28 px-12">
     <p class="mr-auto text-small-title font-semibold text-gray-900">
       Speedo Transfer
     </p>
     <button
       class="text-gray-600 hover:text-gray-900 text-title2"
-      (click)="close()"
+      (click)="this.ref.close(true)"
     >
       &times;
     </button>

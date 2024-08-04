@@ -1,4 +1,3 @@
-<app-money-transfer-hero-section></app-money-transfer-hero-section>
 <!-- stepper -->
 <div class="flex justify-center my-7 py-8">
   <div class="flex flex-col items-center gap-8">
@@ -66,7 +65,8 @@
     </div>
   </div>
 </div>
-<!-- stepper -->
+<!-- stepper ----------------------------------------------------------------------------->
+
 <div *ngIf="currentPage == 1">
   <div>
     <h1 class="text-title2 text-center font-semibold mb-4">
@@ -74,10 +74,12 @@
     </h1>
     <p class="text-gray-600 text-center mb-4">Rate guaranteed (2h)</p>
     <h3
-      *ngIf="conversionRateText"
+      *ngIf="selectedCurrency.codeFrom"
       class="text-small-title2 text-center font-semibold mb-4"
     >
-      {{ conversionRateText }}
+      1 {{ selectedCurrency.codeFrom }} =
+      {{ (1 / selectedCurrency.rateFrom) * selectedCurrency.rateTo }}
+      {{ selectedCurrency.codeTo }}
     </h3>
   </div>
 
@@ -94,24 +96,53 @@
             class="block text-body font-regular text-gray-900 my-4"
             >You send</label
           >
-          <div class="mt-1 flex rounded-md shadow-sm">
+          <div class="flex items-center">
             <input
               id="amount"
               formControlName="amount"
               type="number"
               (input)="convertAmount()"
-              class="text-body font-regular text-gray-900 w-full border-[1px] border-y border-l border-gray-40 rounded-l-md px-5 py-4"
+              class="border border-gray-40 rounded-l-lg py-4 px-4 w-full"
+              placeholder="1000"
             />
-            <select
-              id="fromCurrency"
-              formControlName="fromCurrency"
-              (change)="convertAmount()"
-              class="w-[35%] border-gray-40 bg-gray-40 rounded-r-md pl-3"
-            >
-              <option *ngFor="let option of currencyOptions" [value]="option">
-                {{ option }}
-              </option>
-            </select>
+
+            <div class="relative">
+              <button
+                (click)="toggleDropdownFrom()"
+                class="bg-gray-40 rounded-r-lg py-4 pl-4 pr-10 flex items-center border border-gray-40"
+                type="button"
+              >
+                <img
+                  src="{{ this.selectedCurrency.flagFrom }}"
+                  alt="{{ this.selectedCurrency.codeFrom }}"
+                  class="w-5 h-5 mr-2"
+                />
+                <p>{{ this.selectedCurrency.codeFrom }}</p>
+                <img
+                  src="assets/DRop down.svg"
+                  alt="Dropdown Arrow"
+                  class="w-5 h-5"
+                />
+              </button>
+
+              <ul
+                *ngIf="dropdownOpenFrom"
+                class="absolute mt-[-10px] border border-gray-300 bg-white rounded-md shadow-lg w-full z-10"
+              >
+                <li
+                  *ngFor="let currency of currencies"
+                  (click)="selectCurrencyFrom(currency)"
+                  class="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center"
+                >
+                  <img
+                    [src]="currency.flag_url"
+                    alt="{{ currency.currency_code }} Flag"
+                    class="w-5 h-5 mr-2"
+                  />
+                  {{ currency.currency_code }}
+                </li>
+              </ul>
+            </div>
           </div>
           <div
             *ngIf="
@@ -138,23 +169,52 @@
             class="block text-body font-regular text-gray-900 my-4"
             >Recipient Gets</label
           >
-          <div class="mt-1 flex rounded-md shadow-sm">
+          <div class="flex items-center">
             <input
               id="convertedAmount"
               [value]="convertedAmount?.toFixed(2)"
               readonly
-              class="text-body font-regular text-gray-900 w-full border-[1px] border-y border-l border-gray-40 rounded-l-md px-5 py-4"
+              class="border border-gray-40 rounded-l-lg py-4 px-4 w-full"
+              placeholder="1000"
             />
-            <select
-              id="toCurrency"
-              formControlName="toCurrency"
-              (change)="convertAmount()"
-              class="w-[35%] border-gray-40 bg-gray-40 rounded-r-md pl-3"
-            >
-              <option *ngFor="let option of currencyOptions" [value]="option">
-                {{ option }}
-              </option>
-            </select>
+
+            <div class="relative">
+              <button
+                (click)="toggleDropdownTo()"
+                class="bg-gray-40 rounded-r-lg py-4 pl-4 pr-10 flex items-center border border-gray-40"
+                type="button"
+              >
+                <img
+                  src="{{ this.selectedCurrency.flagTo }}"
+                  alt="{{ this.selectedCurrency.codeTo }}"
+                  class="w-5 h-5 mr-2"
+                />
+                <p>{{ this.selectedCurrency.codeTo }}</p>
+                <img
+                  src="assets/DRop down.svg"
+                  alt="Dropdown Arrow"
+                  class="w-5 h-5"
+                />
+              </button>
+
+              <ul
+                *ngIf="dropdownOpenTo"
+                class="absolute mt-[-10px] border border-gray-300 bg-white rounded-md shadow-lg w-full z-10"
+              >
+                <li
+                  *ngFor="let currency of currencies"
+                  (click)="selectCurrencyTo(currency)"
+                  class="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center"
+                >
+                  <img
+                    [src]="currency.flag_url"
+                    alt="{{ currency.currency_code }}"
+                    class="w-5 h-5 mr-2"
+                  />
+                  {{ currency.currency_code }}
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -165,7 +225,6 @@
           </p>
           <div
             class="flex items-center text-xl text-primary-300 cursor-pointer"
-            (click)="openNewWindow()"
           >
             <svg
               class="w-6 h-6 mr-2 fill-current text-primary-300"
@@ -264,11 +323,11 @@
   </form>
 </div>
 
-<!-- Summary Section, visible when showSummary is true -->
+<!-- Summary Section, visible when showSummary is true ------------------------------------------->
 <div *ngIf="currentPage == 2" class="mt-6 p-6 w-[36%] m-auto text-gray-900">
   <div class="mb-6 w-full">
     <h1 class="text-title2 font-semibold mb-2 text-center">
-      {{ transferForm.value.amount }} {{ transferForm.value.fromCurrency }}
+      {{ transferForm.value.amount }} {{ selectedCurrency.codeFrom }}
     </h1>
     <p class="text-body font-regular text-gray-500 mb-4 text-center">
       Transfer amount
@@ -281,7 +340,7 @@
       </div>
       <div>
         <p class="text-sm font-semibold">
-          {{ convertedAmount?.toFixed(2) }} {{ transferForm.value.toCurrency }}
+          {{ convertedAmount }} {{ selectedCurrency.codeTo }}
         </p>
       </div>
     </div>
@@ -296,8 +355,8 @@
   </div>
 
   <app-account-data
-    [name]="'Asmaa Dosuky'"
-    [accountNumber]="'xxxx7890'"
+    [name]="transferForm.value.recipientName"
+    [accountNumber]="transferForm.value.recipientAccount"
   ></app-account-data>
 
   <div class="flex flex-col justify-center w-full mt-4 space-y-4">
@@ -312,7 +371,7 @@
       </button>
     </div>
 
-    <!-- Back Button -->
+    <!-- Back Button --->
     <div class="flex justify-center w-full">
       <button
         type="button"
@@ -334,7 +393,7 @@
     </div>
     <div class="text-2xl font-semibold">Your transfer was successful</div>
     <div class="text-4xl font-bold text-primary-500 my-4">
-      {{ convertedAmount?.toFixed(4) }} {{ transferForm.value.toCurrency }}
+      {{ convertedAmount }} {{ selectedCurrency.codeFrom }}
     </div>
   </div>
   <app-account-data
@@ -345,21 +404,22 @@
     <img src="assets/transfer.svg" alt="" />
   </div>
   <app-account-data
-    [name]="'Asmaa Dosuky'"
-    [accountNumber]="'xxxx7890'"
+    [name]="transferForm.value.recipientName"
+    [accountNumber]="transferForm.value.recipientAccount"
   ></app-account-data>
 
   <div class="mb-6 w-full flex py-4 border-b-[1px] border-b-gray-40">
-    <p class="text-body font-regular text-gray-500 mr-auto">Total amount</p>
+    <p class="text-body font-regular text-gray-500 mr-auto">Transfer amount</p>
     <p class="text-sm font-semibold">
-      {{ convertedAmount?.toFixed(2) }} {{ transferForm.value.toCurrency }}
+      {{ convertedAmount }} {{ selectedCurrency.codeFrom }}
     </p>
   </div>
 
   <div class="mb-6 w-full flex py-4 border-b-[1px] border-b-gray-40">
     <p class="text-body font-regular text-gray-500 mr-auto">Fees</p>
     <p class="text-sm font-semibold rounded-3xl bg-gray-40 py-2 px-3">
-      {{ convertedAmount?.toFixed(2) }} {{ transferForm.value.toCurrency }}
+      {{ ((transferForm.value.amount * 5) / 100).toFixed(2) }}
+      {{ selectedCurrency.codeTo }}
     </p>
   </div>
 
@@ -371,7 +431,6 @@
       Back to Home
     </button>
     <button
-      (click)="addToFavourite()"
       class="w-full h-14 flex justify-center items-center text-gray-900 py-2 px-4 border border-black rounded-md shadow-sm text-sm font-medium hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
     >
       Add To Favourite

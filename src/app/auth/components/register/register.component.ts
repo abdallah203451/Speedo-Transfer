@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthModalService } from '../../../services/auth-modal/auth-modal.service';
 import {
   FormBuilder,
@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../../services/authentication/auth.service';
+import { DialogRef } from '@ngneat/dialog';
 
 @Component({
   selector: 'app-register',
@@ -21,12 +22,9 @@ export class RegisterComponent {
   hidePassword: boolean = true;
   hideConfirmPassword: boolean = true;
   years: Array<number> = [];
+  ref: DialogRef = inject(DialogRef);
 
-  constructor(
-    private fb: FormBuilder,
-    private modalService: AuthModalService,
-    private auth: AuthService
-  ) {}
+  constructor(private fb: FormBuilder, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
@@ -73,7 +71,7 @@ export class RegisterComponent {
           // const refreshToken = (<any>response).refreshToken;
           localStorage.setItem('accessToken', token);
           // localStorage.setItem('refreshToken', refreshToken);
-          this.close();
+          // this.close();
         },
         error: (err) => {
           alert(err?.error.message);
@@ -92,7 +90,7 @@ export class RegisterComponent {
     this.hideConfirmPassword = !this.hideConfirmPassword;
   }
 
-  close() {
-    this.modalService.hideRegister();
-  }
+  // close() {
+  //   this.modalService.hideRegister();
+  // }
 }

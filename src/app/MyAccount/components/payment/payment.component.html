@@ -1,0 +1,34 @@
+<div class="px-8">
+  <h2 class="text-small-title font-semibold mb-4">Payment History</h2>
+  <div
+    class="bg-primary-50 p-4 rounded-lg mb-4 flex justify-between items-center"
+  >
+    <span id="account-number" class="font-medium text-lg"
+      >Account Number: 6785 4987 6543</span
+    >
+    <button
+      (click)="copyToClipboard()"
+      class="text-gray-500 hover:text-gray-700"
+    >
+      <img src="../../../../../assets/copy.svg" alt="copy" class="h-5 w-5" />
+    </button>
+  </div>
+  <div class="flex ml-4 mr-4 justify-between items-center">
+    <div>
+      <p class="text-gray-900 mb-4 font-medium text-lg">Account Details</p>
+      <p class="text-gray-500 font-regular text-lg">Recipient Name</p>
+    </div>
+    <div class="text-right">
+      <p class="text-gray-900 mb-4 font-medium text-lg">
+        Total Price : 1000USD
+      </p>
+      <p class="text-gray-500 font-regular text-lg">Jonathon Smith</p>
+    </div>
+  </div>
+  <div
+    id="copy-success-message"
+    class="hidden text-center text-green-500 text-lg mt-4"
+  >
+    Copy successful!
+  </div>
+</div>

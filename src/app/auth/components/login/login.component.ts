@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthModalService } from '../../../services/auth-modal/auth-modal.service';
 import {
   FormBuilder,
@@ -8,6 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../../services/authentication/auth.service';
+import { DialogRef } from '@ngneat/dialog';
 
 @Component({
   selector: 'app-login',
@@ -19,12 +20,9 @@ import { AuthService } from '../../../services/authentication/auth.service';
 export class LoginComponent {
   loginForm!: FormGroup;
   hidePassword: boolean = true;
+  ref: DialogRef = inject(DialogRef);
 
-  constructor(
-    private fb: FormBuilder,
-    private modalService: AuthModalService,
-    private auth: AuthService
-  ) {}
+  constructor(private fb: FormBuilder, private auth: AuthService) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -59,7 +57,7 @@ export class LoginComponent {
           // const refreshToken = (<any>response).refreshToken;
           localStorage.setItem('accessToken', token);
           // localStorage.setItem('refreshToken', refreshToken);
-          this.close();
+          // this.close();
         },
         error: (err) => {
           alert(err?.error.message);
@@ -74,7 +72,7 @@ export class LoginComponent {
     this.hidePassword = !this.hidePassword;
   }
 
-  close() {
-    this.modalService.hideLogin();
-  }
+  // close() {
+  //   this.modalService.hideLogin();
+  // }
 }
