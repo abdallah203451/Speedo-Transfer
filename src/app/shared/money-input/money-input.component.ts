@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { currency } from '../../models/currency';
 
 @Component({
   selector: 'app-money-input',
@@ -11,20 +12,34 @@ import { FormGroup } from '@angular/forms';
 })
 export class MoneyInputComponent {
   dropdownOpen = false;
-  currencies = [
-    { code: 'USD', flag: 'assets/united states.svg' },
-    { code: 'EUR', flag: 'assets/european union.svg' },
-    { code: 'JPY', flag: 'assets/japan.svg' },
-    // Add more currencies as needed
+  selectedCurrency = {
+    codeFrom: 'USD',
+    rateFrom: 1,
+    flagFrom: 'assets/united states.svg',
+  };
+  currencies: currency[] = [
+    {
+      currency_code: 'USD',
+      currency_name: 'United States Dollar',
+      exchange_rate: 1.0,
+      flag_url: 'assets/united states.svg',
+    },
+    {
+      currency_code: 'aaa',
+      currency_name: 'United States Dollar',
+      exchange_rate: 50,
+      flag_url: 'assets/united states.svg',
+    },
   ];
-  selectedCurrency = this.currencies[0];
 
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
-  selectCurrency(currency: { code: string; flag: string }) {
-    this.selectedCurrency = currency;
+  selectCurrency(currency: currency) {
+    this.selectedCurrency.codeFrom = currency.currency_code;
+    this.selectedCurrency.flagFrom = currency.flag_url;
+    this.selectedCurrency.rateFrom = currency.exchange_rate;
     this.dropdownOpen = false;
   }
 

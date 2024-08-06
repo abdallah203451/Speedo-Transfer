@@ -1,29 +1,55 @@
-<nav class="text-white bg-[#FAFBFB] h-full">
+<nav class="text-white bg-[#FAFBFB] h-full has-[:checked]:bg-primary-300">
   <ul class="h-full">
-    <a routerLink="profile"
+    <a routerLink="profile" (click)="setActive('profile')"
       ><li
-        class="p-4 gap-3 bg-primary-300 text-xl font-semibold cursor-pointer border-b border-r border-gray-30 hover:bg-primary-400"
+        class="p-4 gap-3 cursor-pointer border-b border-r border-gray-30"
+        [ngClass]="{
+          'bg-primary-300 text-xl font-semibold hover:bg-primary-400':
+            activeButton === 'profile',
+          'text-black text-base font-medium hover:bg-gray-50':
+            activeButton !== 'profile'
+        }"
       >
         My profile
       </li></a
     >
-    <a routerLink="payment-history"
+    <a routerLink="payment-history" (click)="setActive('payment-history')"
       ><li
-        class="p-4 gap-3 text-black cursor-pointer text-base font-medium border-b border-r border-gray-30 hover:bg-gray-50"
+        class="p-4 gap-3 cursor-pointer border-b border-r border-gray-30"
+        [ngClass]="{
+          'bg-primary-300 text-xl font-semibold hover:bg-primary-400':
+            activeButton === 'payment-history',
+          'text-black text-base font-medium hover:bg-gray-50':
+            activeButton !== 'payment-history'
+        }"
       >
         Payments history
       </li></a
     >
-    <a routerLink="switch/settings"
+    <a routerLink="switch/settings" (click)="setActive('switch/settings')"
       ><li
-        class="p-4 gap-3 text-black cursor-pointer text-base font-medium border-b border-r border-gray-30 hover:bg-gray-50"
+        class="p-4 gap-3 cursor-pointer border-b border-r border-gray-30"
+        [ngClass]="{
+          'bg-primary-300 text-xl font-semibold hover:bg-primary-400':
+            activeButton === 'switch/settings',
+          'text-black text-base font-medium hover:bg-gray-50':
+            activeButton !== 'switch/settings'
+        }"
       >
         Settings
       </li></a
     >
-    <a routerLink="switch/change-password"
+    <a
+      routerLink="switch/change-password"
+      (click)="setActive('switch/change-password')"
       ><li
-        class="p-4 gap-3 text-black cursor-pointer text-base font-medium border-b border-r border-gray-30 hover:bg-gray-50"
+        class="p-4 gap-3 cursor-pointer border-b border-r border-gray-30"
+        [ngClass]="{
+          'bg-primary-300 text-xl font-semibold hover:bg-primary-400':
+            activeButton === 'switch/change-password',
+          'text-black text-base font-medium hover:bg-gray-50':
+            activeButton !== 'switch/change-password'
+        }"
       >
         Change password
       </li></a

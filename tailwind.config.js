@@ -7,7 +7,9 @@ module.exports = {
         inter: ["Inter", "sans-serif"],
       },
       backgroundImage: {
-        hero: "linear-gradient(to right bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/assets/header.jpg')",
+        hero: "linear-gradient(to right bottom, rgba(27 27,27, 0.8), rgba(27, 27, 27, 0.8)), url('/assets/header.jpg')",
+        money:
+          "linear-gradient(to right bottom, rgba(243, 233, 235, 0.9), rgba(243, 233, 235, 0.9)), url('/assets/Breadcrumbimg.png')",
       },
       fontSize: {
         h1: ["64px", "150%"],

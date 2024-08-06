@@ -9,6 +9,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../../../services/authentication/auth.service';
 import { DialogRef } from '@ngneat/dialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -24,27 +25,40 @@ export class RegisterComponent {
   years: Array<number> = [];
   ref: DialogRef = inject(DialogRef);
 
-  constructor(private fb: FormBuilder, private auth: AuthService) {}
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       username: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       country: ['', Validators.required],
-      day: ['', [Validators.required, Validators.pattern(/^[0-9]{2}$/)]],
+      day: ['', [Validators.required, Validators.min(1), Validators.max(30)]],
       month: ['', Validators.required],
-      year: ['', [Validators.required, Validators.pattern(/^[0-9]{4}$/)]],
+      year: ['', [Validators.required]],
       password: [
         '',
         [
           Validators.required,
           Validators.minLength(8),
           Validators.pattern(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/
           ),
         ],
       ],
-      confirmPassword: ['', Validators.required],
+      confirmPassword: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/
+          ),
+        ],
+      ],
     });
     this.createYears();
   }
@@ -59,26 +73,32 @@ export class RegisterComponent {
   }
 
   onRegister() {
-    if (this.registerForm.valid) {
-      // const obj = {
-      //   email: this.UserLogin.email,
-      //   password: this.UserLogin.password,
-      // }
-      this.auth.register(this.registerForm.value).subscribe({
+    if (
+      this.registerForm.value.password ==
+      this.registerForm.value.confirmPassword
+    ) {
+      let date = new Date(
+        `${this.registerForm.value.year}-${this.registerForm.value.month}-${this.registerForm.value.day}`
+      );
+      const obj = {
+        name: this.registerForm.value.username,
+        email: this.registerForm.value.email,
+        password: this.registerForm.value.password,
+        // country: this.registerForm.value.country,
+        // date: date,
+      };
+      this.auth.register(obj).subscribe({
         next: (response) => {
-          //this.notification.showSuccess("User login successful", "Success")
-          const token = (<any>response).token;
-          // const refreshToken = (<any>response).refreshToken;
-          localStorage.setItem('accessToken', token);
-          // localStorage.setItem('refreshToken', refreshToken);
-          // this.close();
+          console.log(response);
         },
         error: (err) => {
           alert(err?.error.message);
-          console.error(err);
-          //this.loginForm.reset()
         },
       });
+      this.ref.close();
+      this.router.navigate(['home']);
+    } else {
+      alert('password and the password confirmation must be the same');
     }
   }
 

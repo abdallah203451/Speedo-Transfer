@@ -16,9 +16,101 @@
     </div>
     <div class="w-[33%] bg-gray-0 p-8 rounded-lg">
       <p class="mb-3">You send</p>
-      <app-money-input></app-money-input>
+
+      <div class="flex items-center">
+        <input
+          type="number"
+          class="border border-gray-40 rounded-l-lg py-4 px-4 w-full"
+          placeholder="1000"
+          [(ngModel)]="inputFrom"
+          (ngModelChange)="convertAmount()"
+        />
+        <div class="relative">
+          <button
+            (click)="toggleDropdownFrom()"
+            class="bg-gray-40 rounded-r-lg py-4 pl-4 pr-10 flex items-center border border-gray-40"
+            type="button"
+          >
+            <img
+              src="{{ this.selectedCurrency.flagFrom }}"
+              alt="{{ this.selectedCurrency.codeFrom }}"
+              class="w-5 h-5 mr-2"
+            />
+            <p>{{ this.selectedCurrency.codeFrom }}</p>
+            <img
+              src="assets/DRop down.svg"
+              alt="Dropdown Arrow"
+              class="w-5 h-5"
+            />
+          </button>
+
+          <ul
+            *ngIf="dropdownOpenFrom"
+            class="absolute mt-[-10px] border border-gray-300 bg-white rounded-md shadow-lg w-full z-10"
+          >
+            <li
+              *ngFor="let currency of currencies"
+              (click)="selectCurrencyFrom(currency)"
+              class="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center"
+            >
+              <img
+                [src]="currency.flag_url"
+                alt="{{ currency.currency_code }} Flag"
+                class="w-5 h-5 mr-2"
+              />
+              {{ currency.currency_code }}
+            </li>
+          </ul>
+        </div>
+      </div>
       <p class="my-3">Recipient gets</p>
-      <app-money-input></app-money-input>
+      <div class="flex items-center">
+        <input
+          type="number"
+          class="border border-gray-40 rounded-l-lg py-4 px-4 w-full"
+          placeholder="1000"
+          [(ngModel)]="convertedAmount"
+        />
+
+        <div class="relative">
+          <button
+            (click)="toggleDropdownTo()"
+            class="bg-gray-40 rounded-r-lg py-4 pl-4 pr-10 flex items-center border border-gray-40"
+            type="button"
+          >
+            <img
+              src="{{ this.selectedCurrency.flagFrom }}"
+              alt="{{ this.selectedCurrency.codeTo }}"
+              class="w-5 h-5 mr-2"
+            />
+            <p>{{ this.selectedCurrency.codeFrom }}</p>
+            <img
+              src="assets/DRop down.svg"
+              alt="Dropdown Arrow"
+              class="w-5 h-5"
+            />
+          </button>
+
+          <ul
+            *ngIf="dropdownOpenTo"
+            class="absolute mt-[-10px] border border-gray-300 bg-white rounded-md shadow-lg w-full z-10"
+          >
+            <li
+              *ngFor="let currency of currencies"
+              (click)="selectCurrencyTo(currency)"
+              class="px-4 py-2 cursor-pointer hover:bg-gray-100 flex items-center"
+            >
+              <img
+                [src]="currency.flag_url"
+                alt="{{ currency.currency_code }} Flag"
+                class="w-5 h-5 mr-2"
+              />
+              {{ currency.currency_code }}
+            </li>
+          </ul>
+        </div>
+      </div>
+
       <p class="my-5 text-body font-regular text-gray-100">
         Delivery Time:
         <span class="font-medium text-gray-700">By May 20th</span>

@@ -1,20 +1,18 @@
+import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'], // Ensure correct syntax
 })
 export class SidebarComponent {
-  @Output() switch = new EventEmitter<string>();
+  activeButton: string = 'profile';
 
-  profile() {
-    this.switch.emit('profile');
-  }
-  changePassword() {
-    this.switch.emit('changePassword');
+  setActive(button: string) {
+    this.activeButton = button;
   }
 }

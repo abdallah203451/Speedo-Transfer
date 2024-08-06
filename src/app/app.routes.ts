@@ -8,6 +8,8 @@ import { MoneyTransferFormComponent } from './Money-Transfer/money-transfer-form
 import { SwitchSettingsChangePasswordComponent } from './MyAccount/components/switch-settings-change-password/switch-settings-change-password.component';
 import { ChangePasswordComponent } from './MyAccount/components/change-password/change-password.component';
 import { MainPageComponent } from './shared/main-page/main-page.component';
+import { ErrorComponent } from './MyAccount/components/error/error.component';
+import { transformGuardGuard } from './guard/transform-guard/transform-guard.guard';
 
 export const routes: Routes = [
   {
@@ -26,6 +28,7 @@ export const routes: Routes = [
       {
         path: 'myAccount',
         component: AccPagesComponent,
+        canActivate: [transformGuardGuard],
         children: [
           { path: '', redirectTo: 'profile', pathMatch: 'full' },
           { path: 'profile', component: ProfileComponent },
@@ -44,7 +47,9 @@ export const routes: Routes = [
       {
         path: 'transfer',
         component: MoneyTransferFormComponent,
+        canActivate: [transformGuardGuard],
       },
+      { path: '404', component: ErrorComponent },
     ],
   },
 ];

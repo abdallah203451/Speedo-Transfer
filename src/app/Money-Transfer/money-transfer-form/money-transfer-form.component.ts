@@ -13,6 +13,11 @@ import { MoneyTransferHeroSectionComponent } from '../../shared/money-transfer-h
 import { AccountDataComponent } from '../components/account-data/account-data.component';
 import { MoneyTransferService } from '../../services/money-transfer/money-transfer.service';
 import { currency } from '../../models/currency';
+import { DialogService } from '@ngneat/dialog';
+import { FavoriteListComponent } from '../components/favorite-list/favorite-list.component';
+import { FavoriteService } from '../../services/favorite/favorite.service';
+import { ActivatedRoute } from '@angular/router';
+import { ShareInputService } from '../../services/share-input/share-input.service';
 
 @Component({
   selector: 'app-money-transfer-form',
@@ -29,7 +34,7 @@ import { currency } from '../../models/currency';
 })
 export class MoneyTransferFormComponent {
   currentPage: number = 1;
-  transferForm: FormGroup;
+  transferForm!: FormGroup;
   dropdownOpenFrom = false;
   dropdownOpenTo = false;
   convertedAmount?: number;
@@ -49,35 +54,43 @@ export class MoneyTransferFormComponent {
       flag_url: 'assets/united states.svg',
     },
     {
-      currency_code: 'aaa',
-      currency_name: 'United States Dollar',
+      currency_code: 'EGP',
+      currency_name: 'Egypt',
       exchange_rate: 50,
-      flag_url: 'assets/united states.svg',
+      flag_url: 'assets/egypt.svg',
     },
   ];
   fromAccount = 'xxxx7890';
-  constructor(private fb: FormBuilder, private transfer: MoneyTransferService) {
+  constructor(
+    private fb: FormBuilder,
+    private transfer: MoneyTransferService,
+    private dialog: DialogService,
+    private fav: FavoriteService,
+    private share: ShareInputService
+  ) {}
+
+  ngOnInit() {
     this.transferForm = this.fb.group({
       amount: [1, [Validators.required, Validators.min(1)]],
       recipientName: ['', Validators.required],
       recipientAccount: [
         '',
-        [Validators.required, Validators.pattern('^[1-9]{8}$')],
+        [Validators.required, Validators.pattern('^[0-9]{16}$')],
       ],
       senderName: ['Jonathon Smith', Validators.required],
     });
-  }
-
-  ngOnInit() {
-    this.transfer.getCurrencies().subscribe((data) => {
-      this.currencies = data;
-      this.selectedCurrency.codeFrom = this.currencies[0].currency_code;
-      this.selectedCurrency.codeTo = this.currencies[0].currency_code;
-      this.selectedCurrency.rateFrom = this.currencies[0].exchange_rate;
-      this.selectedCurrency.rateTo = this.currencies[0].exchange_rate;
-      this.selectedCurrency.flagFrom = this.currencies[0].flag_url;
-      this.selectedCurrency.flagTo = this.currencies[0].flag_url;
-    });
+    // this.transfer.getCurrencies().subscribe((data) => {
+    //   this.currencies = data;
+    //   this.selectedCurrency.codeFrom = this.currencies[0].currency_code;
+    //   this.selectedCurrency.codeTo = this.currencies[0].currency_code;
+    //   this.selectedCurrency.rateFrom = this.currencies[0].exchange_rate;
+    //   this.selectedCurrency.rateTo = this.currencies[0].exchange_rate;
+    //   this.selectedCurrency.flagFrom = this.currencies[0].flag_url;
+    //   this.selectedCurrency.flagTo = this.currencies[0].flag_url;
+    // });
+    this.selectedCurrency = this.share.getCurrency();
+    this.transferForm.get('amount')?.setValue(this.share.getFrom());
+    this.convertedAmount = this.share.getTo();
   }
 
   toggleDropdownFrom() {
@@ -105,17 +118,6 @@ export class MoneyTransferFormComponent {
     this.convertAmount();
   }
 
-  onSubmit() {
-    if (this.transferForm.valid) {
-      this.currentPage = 2;
-    }
-  }
-  confirmTransfer() {
-    this.currentPage = 3;
-  }
-  goBackToHome() {
-    this.currentPage = 1;
-  }
   goToPage(pageNumber: number) {
     this.currentPage = pageNumber;
   }
@@ -134,8 +136,8 @@ export class MoneyTransferFormComponent {
         },
         transfer_to: {
           amount: this.convertedAmount,
-          currency_code: this.selectedCurrency.codeTo, // Update this to the actual recipient currency
-          exchange_rate: this.selectedCurrency.rateTo, // Update this to the actual exchange rate
+          currency_code: this.selectedCurrency.codeTo,
+          exchange_rate: this.selectedCurrency.rateTo,
         },
         recipient: {
           recipient_name: this.transferForm.value.recipientName,
@@ -146,12 +148,39 @@ export class MoneyTransferFormComponent {
       this.transfer.sendTransferDetails(transferDetails).subscribe(
         (response) => {
           console.log('Transfer successful', response);
-          this.confirmTransfer();
+          this.goToPage(3);
         },
         (error) => {
           alert(error);
         }
       );
     }
+  }
+
+  opneFavorite() {
+    const dialogRef = this.dialog.open(FavoriteListComponent);
+    dialogRef.afterClosed$.subscribe((result) => {
+      if (result) {
+        this.transferForm.get('recipientName')?.setValue(result.recipientName);
+        this.transferForm
+          .get('recipientAccount')
+          ?.setValue(result.recipientAccountId);
+      }
+    });
+  }
+
+  addFavorite() {
+    let obj = {
+      recipientName: this.transferForm.value.recipientName,
+      recipientAccountId: this.transferForm.value.recipientAccount,
+    };
+    this.fav.addFavorite(obj).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (err) => {
+        console.error(err);
+      },
+    });
   }
 }

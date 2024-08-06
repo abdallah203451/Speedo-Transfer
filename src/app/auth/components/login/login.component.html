@@ -5,25 +5,45 @@
     </p>
     <button
       class="text-gray-600 hover:text-gray-900 text-title2"
-      (click)="ref.close(true)"
+      (click)="ref.close()"
     >
       &times;
     </button>
   </div>
-  <div class="text-center mb-8">
+
+  <div class="text-center mb-8" *ngIf="ref.data">
     <p class="text-title2 font-semibold text-gray-900">Login</p>
     <p class="text-body font-regular text-gray-500">
       New Account? <a href="" class="font-medium">Sign Up</a>
     </p>
   </div>
-  <div class="rounded-lg shadow-lg p-8 max-w-lg m-auto mb-28">
+
+  <div
+    *ngIf="!ref.data"
+    class="flex items-start p-5 mb-8 max-w-lg mx-auto bg-gray-40 rounded-md"
+  >
+    <img src="assets/alert.svg" alt="" class="w-20 mr-5 mt-1" />
+    <div class="text-paragraph font-semibold text-gray-500 text-center">
+      We Logged you out because you were inactive for 5 minutes - it's to help
+      your account secure
+    </div>
+    <img
+      (click)="hideAlert()"
+      src="assets/cancel.svg"
+      alt=""
+      class="w-16 mt-1 cursor-pointer"
+    />
+  </div>
+
+  <div class="rounded-lg shadow-lg p-8 max-w-lg mx-auto mb-28">
     <div class="flex justify-between items-center">
       <h2 class="text-small-title font-semibold mb-4 text-gray-900">
-        Login here
+        @if(ref.data){ Login here } @else{ Welcome back }
       </h2>
     </div>
     <p class="text-body font-regular text-gray-500 mb-6">
-      Welcome back.Login to your account
+      @if(ref.data){Welcome back.Login to your account} @else{ Login to your
+      account}
     </p>
     <form
       class="text-body font-regular text-gray-700"
@@ -89,7 +109,7 @@
         class="w-full bg-primary-300 text-gray-0 text-body font-medium py-3 rounded-md transition"
         [ngClass]="{ 'hover:bg-primary-400': loginForm.valid }"
       >
-        Create Account
+        Login
       </button>
     </form>
 
@@ -101,7 +121,7 @@
     </p>
   </div>
   <div
-    class="text-center bg-primary-50 text-gray-900 text-body font-medium py-4"
+    class="text-center bg-primary-50 text-gray-900 text-body font-medium py-4 end-0"
   >
     ©Speedo Transfer Payments Limited 2024
   </div>

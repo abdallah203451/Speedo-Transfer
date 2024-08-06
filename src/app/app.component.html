@@ -1,7 +1,7 @@
 <!-- @if(!(registerVisible$ | async) && !(loginVisible$ | async)){ -->
 <app-header></app-header>
 <router-outlet></router-outlet>
-<app-download></app-download>
+<app-download *ngIf="!isError"></app-download>
 <app-footer></app-footer>
 <!-- } -->
 
